@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Contracts;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ namespace CompanyEmployess.Controllers
     [Route("[controller]")]
     public class WeatherForecastController : ControllerBase
     {
+        private readonly IRepositoryManager _repository;
         private static readonly string[] Summaries = new[]
         {
             "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
@@ -18,14 +20,17 @@ namespace CompanyEmployess.Controllers
 
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, IRepositoryManager repository_)
         {
+            _repository = repository_;
             _logger = logger;
         }
 
         [HttpGet]
         public IEnumerable<string> Get()
         {
+         
+            return new string[] { "value1", "value2" };
             _logger.LogInformation("Вот информационное сообщение от нашего контроллера значений.");
 
 
