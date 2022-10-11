@@ -1,4 +1,8 @@
+using AutoMapper;
 using CompanyEmployess.Extensions;
+using Contracts;
+using Entities.DataTransferObjects;
+using Entities.Models;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpOverrides;
@@ -28,15 +32,22 @@ namespace CompanyEmployess
             services.ConfigureLoggerService();
             services.ConfigureSqlContext(Configuration);
             services.AddControllers();
+            services.AddAutoMapper(typeof(Startup));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env, ILoggerManager logger)
         {
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
+            else
+            {
+                app.UseHsts();
+            }
+            app.ConfigureExceptionHandler(logger);
+            app.UseHttpsRedirection();
             app.UseStaticFiles();
             app.UseCors("CorsPolicy");
             app.UseForwardedHeaders(new ForwardedHeadersOptions
@@ -44,13 +55,19 @@ namespace CompanyEmployess
                 ForwardedHeaders = ForwardedHeaders.All
             });
             app.UseRouting();
-
             app.UseAuthorization();
+            app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
+        }
 
-            app.UseEndpoints(endpoints =>
+        public class MappingProfile : Profile
+        {
+            public MappingProfile()
             {
-                endpoints.MapControllers();
-            });
+                CreateMap<Company, CompanyDto>().ForMember(c => c.FullAddress, opt => 
+                    opt.MapFrom(x => string.Join(' ', x.Address, x.Country)));
+                CreateMap<Appliances, AppliancesDto>();
+                CreateMap<Furniture, FurnitureDto>();
+            }
         }
     }
 }
