@@ -13,7 +13,7 @@ namespace Repository
         private RepositoryContext _repositoryContext;
         private ICompanyRepository _companyRepository;
         private IEmployeeRepository _employeeRepository;
-        private IAppliancesRepository _catRepository;
+        private IAppliancesRepository _appliancesRepository;
         private IFurnitureRepository _furnitureRepository;
 
         public RepositoryManager(RepositoryContext repositoryContext)
@@ -41,17 +41,17 @@ namespace Repository
             }
         }
 
-        public IAppliancesRepository Cat
+        public IAppliancesRepository Appliances
         {
             get
             {
-                if (_catRepository == null)
-                    _catRepository = new AppliancesRepository(_repositoryContext);
-                return _catRepository;
+                if (_appliancesRepository == null)
+                    _appliancesRepository = new AppliancesRepository(_repositoryContext);
+                return _appliancesRepository;
             }
         }
 
-        public IFurnitureRepository Dog
+        public IFurnitureRepository Furniture
         {
             get
             {

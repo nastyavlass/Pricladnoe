@@ -25,9 +25,9 @@ namespace Entities
         public DbSet<Company> Companies { get; set; }
         public DbSet<Employees> Employees { get; set; }
 
-        public DbSet<Furniture> Cat { get; set; }
+        public DbSet<Furniture> Furniture { get; set; }
 
-        public DbSet<Appliances> Dog { get; set; }
+        public DbSet<Appliances> Appliances { get; set; }
 
     }
 }

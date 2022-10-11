@@ -17,21 +17,21 @@ namespace Entities.Configuration
             (
             new Appliances
             {
-                Id = new Guid("80abbca8-664d-4b20-b5de-024715497d4a"),
+                Id = new Guid("81abbca8-664d-4b20-b5de-024715497d4a"),
                 Type = "Dishwasher",
                 Purpose = "To wash the dishes",
                 Price = 1000,
             },
             new Appliances
             {
-                Id = new Guid("80abbca8-664d-4b20-b5de-024715497d4a"),
+                Id = new Guid("82abbca8-664d-4b20-b5de-024715497d4a"),
                 Type = "Microwave oven",
                 Purpose = "Reheat food",
                 Price = 500,
             },
             new Appliances
             {
-                Id = new Guid("80abbca8-664d-4b20-b5de-024715497d4a"),
+                Id = new Guid("83abbca8-664d-4b20-b5de-024715497d4a"),
                 Type = "Electric kettle",
                 Purpose = "Heating the water",
                 Price = 300,
