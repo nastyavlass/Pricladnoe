@@ -3,6 +3,7 @@ using Contracts;
 using Entities.DataTransferObjects;
 using Entities.Models;
 using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
@@ -77,6 +78,68 @@ namespace CompanyEmployess.Controllers
             _repository.Save();
             var furnitureToReturn = _mapper.Map<FurnitureDto>(furnitureEntity);
             return CreatedAtRoute("FurnitureById", new { id = furnitureToReturn.Id }, furnitureToReturn);
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult DeleteFurniture(Guid furnitureId)
+        {
+            var furniture = _repository.Furniture.GetFurniture(furnitureId, trackChanges: false);
+            if (furniture == null)
+            {
+                _logger.LogInfo($"Furniture with id: {furnitureId} doesn't exist in the database.");
+                return NotFound();
+            }
+
+            _repository.Furniture.DeleteFurniture(furniture);
+            _repository.Save();
+
+            return NoContent();
+        }
+
+        [HttpPut("{id}")]
+        public IActionResult UpdateFurniture(Guid furnitureId, [FromBody] FurnitureForUpdateDto furniture)
+        {
+            if (furniture == null)
+            {
+                _logger.LogError("FurnitureForUpdateDto object sent from client is null.");
+                return BadRequest("FurnitureForUpdateDto object is null");
+            }
+
+            var furnitureEntity = _repository.Furniture.GetFurniture(furnitureId, trackChanges: false);
+            if (furnitureEntity == null)
+            {
+                _logger.LogInfo($"Furniture with id: {furnitureId} doesn't exist in the database.");
+                return NotFound();
+            }
+
+            _mapper.Map(furniture, furnitureEntity);
+            _repository.Save();
+
+            return NoContent();
+        }
+
+        [HttpPatch("{id}")]
+        public IActionResult PartiallyUpdateFurniture(Guid furnitureId, [FromBody] JsonPatchDocument<FurnitureForUpdateDto> patchDoc)
+        {
+            if (patchDoc == null)
+            {
+                _logger.LogError("patchDoc object sent from client is null.");
+                return BadRequest("patchDoc object is null");
+            }
+
+            var furnitureEntity = _repository.Furniture.GetFurniture(furnitureId, trackChanges: true);
+            if (furnitureEntity == null)
+            {
+                _logger.LogInfo($"Furniture with id: {furnitureId} doesn't exist in the database.");
+                return NotFound();
+            }
+
+            var furnitureToPatch = _mapper.Map<FurnitureForUpdateDto>(furnitureEntity);
+            patchDoc.ApplyTo(furnitureToPatch);
+            _mapper.Map(furnitureToPatch, furnitureEntity);
+            _repository.Save();
+
+            return NoContent();
         }
     }
 }

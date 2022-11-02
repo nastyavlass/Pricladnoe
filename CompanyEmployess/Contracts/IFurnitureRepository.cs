@@ -13,5 +13,6 @@ namespace Contracts
         Furniture GetFurniture(Guid companyId, bool trackChanges);
         void CreateFurniture(Furniture furniture);
         IEnumerable<Furniture> GetByIds(IEnumerable<Guid> ids, bool trackChanges);
+        void DeleteFurniture(Furniture furniture);
     }
 }

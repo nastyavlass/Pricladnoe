@@ -26,5 +26,10 @@ namespace Repository
 
         public IEnumerable<Furniture> GetByIds(IEnumerable<Guid> ids, bool trackChanges) =>
             FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
+
+        public void DeleteFurniture(Furniture furniture)
+        {
+            Delete(furniture);
+        }
     }
 }

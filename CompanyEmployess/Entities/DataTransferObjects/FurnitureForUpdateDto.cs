@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Entities.DataTransferObjects
 {
-    public class FurnitureForCreationDto
+    public class FurnitureForUpdateDto
     {
         public string? Type { get; set; }
         public string? Colour { get; set; }

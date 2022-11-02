@@ -36,7 +36,7 @@ namespace CompanyEmployess
             services.AddControllers(config => {
                 config.RespectBrowserAcceptHeader = true;
                 config.ReturnHttpNotAcceptable = true;
-            }).AddXmlDataContractSerializerFormatters().AddCustomCSVFormatter();
+            }).AddXmlDataContractSerializerFormatters().AddCustomCSVFormatter().AddNewtonsoftJson();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -76,6 +76,10 @@ namespace CompanyEmployess
                 CreateMap<EmployeeForCreationDto, Employee>();
                 CreateMap<ApplianceForCreationDto, Appliance>();
                 CreateMap<FurnitureForCreationDto, Furniture>();
+                CreateMap<EmployeeForUpdateDto, Employee>().ReverseMap();
+                CreateMap<CompanyForUpdateDto, Company>();
+                CreateMap<ApplianceForUpdateDto, Employee>().ReverseMap();
+                CreateMap<FurnitureForUpdateDto, Employee>().ReverseMap();
             }
         }
     }

@@ -25,5 +25,10 @@ namespace Repository
 
         public IEnumerable<Appliance> GetByIds(IEnumerable<Guid> ids, bool trackChanges) =>
             FindByCondition(x => ids.Contains(x.Id), trackChanges).ToList();
+
+        public void DeleteAppliance(Appliance appliance)
+        {
+            Delete(appliance);
+        }
     }
 }

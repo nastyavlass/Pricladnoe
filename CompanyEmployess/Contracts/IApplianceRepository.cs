@@ -13,5 +13,6 @@ namespace Contracts
         Appliance GetAppliance(Guid companyId, bool trackChanges);
         void CreateAppliance(Appliance appliance);
         IEnumerable<Appliance> GetByIds(IEnumerable<Guid> ids, bool trackChanges);
+        void DeleteAppliance(Appliance appliance);
     }
 }
