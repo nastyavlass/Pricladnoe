@@ -1,5 +1,5 @@
 using AutoMapper;
-
+using CompanyEmployess.ActionFilters;
 using CompanyEmployess.Extensions;
 using Contracts;
 using Entities.DataTransferObjects;
@@ -42,12 +42,9 @@ namespace CompanyEmployess
             services.Configure<ApiBehaviorOptions>(options => {
                 options.SuppressModelStateInvalidFilter = true;
             });
-            //services.AddScoped<ValidationFilterAttribute>();
-            //services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
+            services.AddScoped<ValidationFilterAttribute>();
+            services.AddScoped<ValidateEmployeeForCompanyExistsAttribute>();
             services.ConfigureVersioning();
-            services.AddAuthentication();
-            services.ConfigureIdentity();
-            services.ConfigureJWT(Configuration);
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -72,7 +69,6 @@ namespace CompanyEmployess
             app.UseRouting();
             app.UseAuthorization();
             app.UseEndpoints(endpoints => { endpoints.MapControllers(); });
-            app.UseAuthentication();
         }
 
         public class MappingProfile : Profile
@@ -92,7 +88,6 @@ namespace CompanyEmployess
                 CreateMap<CompanyForUpdateDto, Company>();
                 CreateMap<ApplianceForUpdateDto, Employee>().ReverseMap();
                 CreateMap<FurnitureForUpdateDto, Employee>().ReverseMap();
-                CreateMap<UserForRegistrationDto, User>();
             }
         }
     }

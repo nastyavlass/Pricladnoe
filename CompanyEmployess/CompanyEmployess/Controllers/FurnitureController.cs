@@ -4,7 +4,6 @@ using Contracts;
 using Entities.DataTransferObjects;
 using Entities.Models;
 using Entities.RequestFeatures;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -33,7 +32,7 @@ namespace CompanyEmployess.Controllers
             _dataShaper = dataShaper;
         }
 
-        [HttpGet(Name = "GetFurnitures"), Authorize]
+        [HttpGet]
         [HttpHead]
         public async Task<IActionResult> GetFurniture([FromQuery] FurnitureParameters furnitureParameters) {
             var furniture = await _repository.Furniture.GetAllFurniture(furnitureParameters, trackChanges: false);
