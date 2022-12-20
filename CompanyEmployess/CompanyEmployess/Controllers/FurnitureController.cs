@@ -15,9 +15,9 @@ using System.Threading.Tasks;
 
 namespace CompanyEmployess.Controllers
 {
-    [ApiVersion("1.0")]
     [Route("api/furniture")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "v2")]
     public class FurnitureController : ControllerBase
     {
         private readonly IRepositoryManager _repository;
@@ -33,6 +33,10 @@ namespace CompanyEmployess.Controllers
             _dataShaper = dataShaper;
         }
 
+        /// <summary>
+        /// Получает список всей мебели
+        /// </summary>
+        /// <returns> Список мебели</returns>.
         [HttpGet(Name = "GetFurnitures"), Authorize]
         [HttpHead]
         public async Task<IActionResult> GetFurniture([FromQuery] FurnitureParameters furnitureParameters) {
@@ -75,6 +79,14 @@ namespace CompanyEmployess.Controllers
             return Ok(furnitureToReturn);
         }
 
+        /// <summary>
+        /// Создает вновь созданную мебель
+        /// </summary>
+        /// <param name="furniture"></param>.
+        /// <returns>Вновь созданная мебель</returns>.
+        /// <response code="201"> Возвращает только что созданный элемент</response>.
+        /// <response code="400"> Если элемент равен null</response>.
+        /// <код ответа="422"> Если модель недействительна</ответ>.
         [HttpPost]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateFurniture([FromBody] FurnitureForCreationDto furniture)

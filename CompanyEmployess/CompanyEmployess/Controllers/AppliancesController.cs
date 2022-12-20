@@ -15,9 +15,9 @@ using System.Threading.Tasks;
 
 namespace CompanyEmployess.Controllers
 {
-    [ApiVersion("1.0")]
     [Route("api/appliances")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "v1")]
     public class AppliancesController : ControllerBase
     {
         private readonly IRepositoryManager _repository;
@@ -33,8 +33,11 @@ namespace CompanyEmployess.Controllers
             _dataShaper = dataShaper;
         }
 
+        /// <summary>
+        /// Получает список всех приборов
+        /// </summary>
+        /// <returns> Список приборов</returns>.
         [HttpGet(Name = "GetAppliances"), Authorize]
-        [HttpHead]
         public async Task<IActionResult> GetAppliances([FromQuery] AppliancesParameters appliancesParameters) {
             var appliances = await _repository.Appliance.GetAllAppliances(appliancesParameters, trackChanges: false);
             var appliancesDto = _mapper.Map<IEnumerable<ApplianceDto>>(appliances);
@@ -42,7 +45,6 @@ namespace CompanyEmployess.Controllers
         }
 
         [HttpGet("{id}", Name = "ApplianceById")]
-        [HttpHead]
         public async Task<IActionResult> GetAppliance(Guid id) {
             var appliance = await _repository.Appliance.GetAppliance(id, trackChanges: false);
             if (appliance == null) {
@@ -55,7 +57,6 @@ namespace CompanyEmployess.Controllers
         }
 
         [HttpGet("collection/({ids})", Name = "ApplianceCollection")]
-        [HttpHead]
         public async Task<IActionResult> GetApplianceCollection([ModelBinder(BinderType = typeof(ArrayModelBinder))] IEnumerable<Guid> ids)
         {
             if (ids == null)
@@ -75,7 +76,18 @@ namespace CompanyEmployess.Controllers
             return Ok(applianceToReturn);
         }
 
-        [HttpPost]
+        /// <summary>
+        /// Создает вновь созданный прибор
+        /// </summary>
+        /// <param name="appliance"></param>.
+        /// <returns>Вновь созданный прибор</returns>.
+        /// <response code="201"> Возвращает только что созданный элемент</response>.
+        /// <response code="400"> Если элемент равен null</response>.
+        /// <код ответа="422"> Если модель недействительна</ответ>.
+        [HttpPost(Name = "CreateAppliance")]
+        [ProducesResponseType(201)]
+        [ProducesResponseType(400)]
+        [ProducesResponseType(422)]
         [ServiceFilter(typeof(ValidationFilterAttribute))]
         public async Task<IActionResult> CreateAppliance([FromBody] ApplianceForCreationDto appliance)
         {

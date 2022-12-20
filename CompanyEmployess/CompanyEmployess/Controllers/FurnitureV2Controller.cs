@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace CompanyEmployess.Controllers
 {
-    [ApiVersion("2.0")]
     [Route("api/furniture")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "v2")]
     public class FurnitureV2Controller : ControllerBase
     {
         private readonly IRepositoryManager _repository;
@@ -17,6 +17,10 @@ namespace CompanyEmployess.Controllers
             _repository = repository;
         }
 
+        /// <summary>
+        /// Получает список всей мебели
+        /// </summary>
+        /// <returns> Список мебели</returns>.
         [HttpGet]
         public async Task<IActionResult> GetFurniture([FromQuery] FurnitureParameters furnitureParameters)
         {

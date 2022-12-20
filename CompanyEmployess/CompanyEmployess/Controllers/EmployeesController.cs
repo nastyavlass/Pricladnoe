@@ -32,7 +32,6 @@ namespace CompanyEmployess.Controllers
         }
 
         [HttpGet]
-        [HttpHead]
         public async Task<IActionResult> GetEmployeesForCompany(Guid companyId, [FromQuery] EmployeeParameters employeeParameters)
         {
             if (!employeeParameters.ValidAgeRange)
@@ -52,7 +51,6 @@ namespace CompanyEmployess.Controllers
         }
 
         [HttpGet("{id}")]
-        [HttpHead]
         public async Task<IActionResult> GetEmployeeForCompany(Guid companyId, Guid id)
         {
             var company = await _repository.Company.GetCompanyAsync(companyId, trackChanges: false);
