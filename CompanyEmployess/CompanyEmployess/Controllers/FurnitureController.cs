@@ -15,9 +15,9 @@ using System.Threading.Tasks;
 
 namespace CompanyEmployess.Controllers
 {
-    [ApiVersion("1.0")]
     [Route("api/furniture")]
     [ApiController]
+    [ApiExplorerSettings(GroupName = "v2")]
     public class FurnitureController : ControllerBase
     {
         private readonly IRepositoryManager _repository;
